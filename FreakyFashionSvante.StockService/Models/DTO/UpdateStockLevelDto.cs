@@ -1,4 +1,4 @@
-﻿namespace FreakyFashionSvante.StockService.Controllers
+﻿namespace FreakyFashionSvante.StockService.Models.DTO
 {
     public class UpdateStockLevelDto
     {
