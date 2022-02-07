@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FreakyFashionSvante.StockService.Controllers
 {
-    //TODO: Kalla denna för StockLevel?
-    [Route("api/[controller]")]
+    
+    [Route("api/[controller]")] //URL
     [ApiController]
     public class StockController : ControllerBase
     {
@@ -16,22 +16,30 @@ namespace FreakyFashionSvante.StockService.Controllers
         }
 
         private StockServiceContext Context { get; }
-        [HttpPut("{articleNumber}")]
+        [HttpPut("{articleNumber}")] //Lägger till artikelnummer och hur många som finns i lager.
         public IActionResult UpdateStockLevel(string articleNumber, UpdateStockLevelDto updateStockLevelDto)
         {
-            var stockLevel = new StockLevel(
-                updateStockLevelDto.ArticleNumber,
-                updateStockLevelDto.StockLevel
+
+            var stockLevel = Context.StockLevel.FirstOrDefault(x => x.ArticleNumber == updateStockLevelDto.ArticleNumber);
+
+            if (stockLevel == null) //Om stockLevel är null så genereras en insert into
+            {
+                 stockLevel = new StockLevel(
+                    updateStockLevelDto.ArticleNumber,
+                    updateStockLevelDto.StockLevel
                 );
-
-            Context.StockLevel.Add(stockLevel);
-
+                Context.StockLevel.Add(stockLevel);
+            }
+            else // om stockLevel inte är null så kommer nedan kod generera en update istället när vi kör SaveChanges()
+            {
+                stockLevel.Stock = updateStockLevelDto.StockLevel;
+            }
             Context.SaveChanges();
 
             return NoContent();
         }
         
-        [HttpGet]
+        [HttpGet] //Hämtar artikelnummer och antal i lager
         public IEnumerable<StockLevelDto> GetAll()
         {
             var stockLevelDtos = Context.StockLevel.Select(x => new StockLevelDto
@@ -49,5 +57,4 @@ namespace FreakyFashionSvante.StockService.Controllers
 
     public int Stock { get; set; }
     }
-
 }
