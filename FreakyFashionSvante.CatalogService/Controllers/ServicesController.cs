@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FreakyFashionSvante.CatalogService.Data;
+using FreakyFashionSvante.CatalogService.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreakyFashionSvante.CatalogService.Controllers
@@ -40,19 +41,31 @@ namespace FreakyFashionSvante.CatalogService.Controllers
         [HttpGet] //Hämtar artikelnummer och antal i lager
         public IEnumerable<ProductLevelDto> GetAll()
         {
-            var ProductLevelDtos = Context.ProductLevel.Select(x => new ProductLevelDto
+            var productLevelDtos = Context.ProductLevel.Select(x => new ProductLevelDto
             {
+                Name = x.Name,
+                Description = x.Description,
+                ImageUrl = x.ImageUrl,
+                Price = x.Price,
                 ArticleNumber = x.ArticleNumber,
-                Product = x.Product,
             });
-            return ProductLevelDtos;
+            return productLevelDtos;
         }
     }
 
     public class ProductLevelDto
     {
-        public string ArticleNumber { get; set; }
-
-        public int Product { get; set; }
+        public string Name{ get; set; }
+        public string Description{ get; set; }
+        public string ImageUrl{ get; set; }
+        public decimal Price{ get; set; }
+        public string ArticleNumber{ get; set; }
     }
 }
+/*int Id { get; set; }
+        string Name { get; set; }  
+        string Description { get; set; }
+        string ImageUrl { get; set; }
+        int Price { get; set; }
+        string ArticleNumber { get; set; }
+        string UrlSlug { get; set; }*/
