@@ -1,5 +1,6 @@
 ﻿using FreakyFashionSvante.CatalogService.Data;
 using FreakyFashionSvante.CatalogService.Models.Domain;
+using FreakyFashionSvante.CatalogService.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreakyFashionSvante.CatalogService.Controllers
@@ -9,29 +10,38 @@ namespace FreakyFashionSvante.CatalogService.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private ProductServiceContext Context { get; }
+
         public ProductController(ProductServiceContext context)
         {
             Context = context;
         }
 
-        private ProductServiceContext Context { get; }
-        [HttpPut("{articleNumber}")] //Lägger till artikelnummer och hur många som finns i lager.
-        public IActionResult UpdateProductLevel(string articleNumber, UpdateProductLevelDto updateProductLevelDto)
+        [HttpPost("{articleNumber}")] //Lägger till artikelnummer och hur många som finns i lager.
+        public IActionResult UpdateProductLevel(string articleNumber, UpdateProductDTO updateProductDto)
         {
 
-            var ProductLevel = Context.ProductLevel.FirstOrDefault(x => x.ArticleNumber == updateProductLevelDto.ArticleNumber);
+            var productLevel = Context.ProductLevel.FirstOrDefault(x => x.ArticleNumber == updateProductDto.ArticleNumber);
 
-            if (ProductLevel == null) //Om ProductLevel är null så genereras en insert into
+            if (productLevel == null) //Om ProductLevel är null så genereras en insert into
             {
-                ProductLevel = new ProductLevel(
-                   updateProductLevelDto.ArticleNumber,
-                   updateProductLevelDto.ProductLevel
+                productLevel = new ProductLevel(
+                   updateProductDto.Name,
+                   updateProductDto.Description,
+                   updateProductDto.ImageUrl,
+                   updateProductDto.Price,
+                   updateProductDto.ArticleNumber,
+                   updateProductDto.UrlSlug
                );
-                Context.ProductLevel.Add(ProductLevel);
+                Context.ProductLevel.Add(productLevel);
             }
             else // om ProductLevel inte är null så kommer nedan kod generera en update istället när vi kör SaveChanges()
             {
-                ProductLevel.Product = updateProductLevelDto.ProductLevel;
+                productLevel.Name = updateProductDto.Name;
+                productLevel.Description = updateProductDto.Description;
+                productLevel.ImageUrl = updateProductDto.ImageUrl;
+                productLevel.ArticleNumber = updateProductDto.ArticleNumber;
+                productLevel.Price = updateProductDto.Price;
             }
             Context.SaveChanges();
 
@@ -41,7 +51,7 @@ namespace FreakyFashionSvante.CatalogService.Controllers
         [HttpGet] //Hämtar artikelnummer och antal i lager
         public IEnumerable<ProductLevelDto> GetAll()
         {
-            var productLevelDtos = Context.ProductLevel.Select(x => new ProductLevelDto
+            var productLevelDto = Context.ProductLevel.Select(x => new ProductLevelDto
             {
                 Name = x.Name,
                 Description = x.Description,
@@ -49,7 +59,7 @@ namespace FreakyFashionSvante.CatalogService.Controllers
                 Price = x.Price,
                 ArticleNumber = x.ArticleNumber,
             });
-            return productLevelDtos;
+            return productLevelDto;
         }
     }
 
@@ -60,6 +70,7 @@ namespace FreakyFashionSvante.CatalogService.Controllers
         public string ImageUrl{ get; set; }
         public decimal Price{ get; set; }
         public string ArticleNumber{ get; set; }
+        
     }
 }
 /*int Id { get; set; }
