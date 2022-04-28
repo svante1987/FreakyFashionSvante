@@ -21,7 +21,7 @@ namespace FreakyFashionSvante.CatalogService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("FreakyFashionSvante.CatalogService.Models.Domain.ProductLevel", b =>
+            modelBuilder.Entity("FreakyFashionSvante.CatalogService.Models.Domain.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace FreakyFashionSvante.CatalogService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductLevel");
+                    b.ToTable("Product");
                 });
 #pragma warning restore 612, 618
         }

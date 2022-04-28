@@ -5,7 +5,11 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreakyFashionSvante.StockService", "FreakyFashionSvante.StockService\FreakyFashionSvante.StockService.csproj", "{7C5EDDBE-9A88-47FA-918B-C18AF80D4B6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyFashionSvante.CatalogService", "FreakyFashionSvante.CatalogService\FreakyFashionSvante.CatalogService.csproj", "{D0D30B59-E900-437F-9B08-6EDB81131876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreakyFashionSvante.CatalogService", "FreakyFashionSvante.CatalogService\FreakyFashionSvante.CatalogService.csproj", "{D0D30B59-E900-437F-9B08-6EDB81131876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyFashionSvante.BasketService", "FreakyFashionSvante.BasketService\FreakyFashionSvante.BasketService.csproj", "{282045A1-3A09-47CF-A2FB-9A0818DA392E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyFashionSvante.OrderService", "FreakyFashionSvante.OrderService\FreakyFashionSvante.OrderService.csproj", "{A775FAF4-2C1F-4D54-8050-50ECB2AADCD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D0D30B59-E900-437F-9B08-6EDB81131876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0D30B59-E900-437F-9B08-6EDB81131876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0D30B59-E900-437F-9B08-6EDB81131876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282045A1-3A09-47CF-A2FB-9A0818DA392E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282045A1-3A09-47CF-A2FB-9A0818DA392E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282045A1-3A09-47CF-A2FB-9A0818DA392E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282045A1-3A09-47CF-A2FB-9A0818DA392E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A775FAF4-2C1F-4D54-8050-50ECB2AADCD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A775FAF4-2C1F-4D54-8050-50ECB2AADCD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A775FAF4-2C1F-4D54-8050-50ECB2AADCD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A775FAF4-2C1F-4D54-8050-50ECB2AADCD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

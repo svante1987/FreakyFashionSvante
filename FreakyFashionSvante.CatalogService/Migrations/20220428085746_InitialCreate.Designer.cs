@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreakyFashionSvante.CatalogService.Migrations
 {
     [DbContext(typeof(ProductServiceContext))]
-    [Migration("20220207105718_initial-migration")]
-    partial class initialmigration
+    [Migration("20220428085746_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace FreakyFashionSvante.CatalogService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("FreakyFashionSvante.CatalogService.Models.Domain.ProductLevel", b =>
+            modelBuilder.Entity("FreakyFashionSvante.CatalogService.Models.Domain.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,9 +50,13 @@ namespace FreakyFashionSvante.CatalogService.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("UrlSlug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("ProductLevel");
+                    b.ToTable("Product");
                 });
 #pragma warning restore 612, 618
         }

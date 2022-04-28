@@ -4,12 +4,12 @@
 
 namespace FreakyFashionSvante.CatalogService.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ProductLevel",
+                name: "Product",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -18,18 +18,19 @@ namespace FreakyFashionSvante.CatalogService.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ArticleNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ArticleNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UrlSlug = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductLevel", x => x.Id);
+                    table.PrimaryKey("PK_Product", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProductLevel");
+                name: "Product");
         }
     }
 }

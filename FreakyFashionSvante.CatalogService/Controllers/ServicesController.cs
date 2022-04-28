@@ -2,6 +2,7 @@
 using FreakyFashionSvante.CatalogService.Models.Domain;
 using FreakyFashionSvante.CatalogService.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace FreakyFashionSvante.CatalogService.Controllers
 {
@@ -10,73 +11,49 @@ namespace FreakyFashionSvante.CatalogService.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private ProductServiceContext Context { get; }
+        private ProductServiceContext Context { get; set; }
 
         public ProductController(ProductServiceContext context)
         {
             Context = context;
         }
 
-        [HttpPost("{articleNumber}")] //Lägger till artikelnummer och hur många som finns i lager.
-        public IActionResult UpdateProductLevel(string articleNumber, UpdateProductDTO updateProductDto)
+        [HttpPost] //Lägger till ny produkt
+        public IActionResult NewProduct(ProductDto productDto)
         {
+            var name = productDto.Name;
+            name = name.Replace("-", "");
+            name = name.Replace(" ", "-");
+            
+            var product = new Product(
+                id: productDto.Id,
+                name: productDto.Name,
+                description: productDto.Description,
+                imageUrl: productDto.ImageUrl,
+                price: productDto.Price,
+                articleNumber: productDto.ArticleNumber,
+                urlSlug: name.ToLower()
+            );
 
-            var productLevel = Context.ProductLevel.FirstOrDefault(x => x.ArticleNumber == updateProductDto.ArticleNumber);
+            Context.Product.Add(product);
 
-            if (productLevel == null) //Om ProductLevel är null så genereras en insert into
-            {
-                productLevel = new ProductLevel(
-                   updateProductDto.Name,
-                   updateProductDto.Description,
-                   updateProductDto.ImageUrl,
-                   updateProductDto.Price,
-                   updateProductDto.ArticleNumber,
-                   updateProductDto.UrlSlug
-               );
-                Context.ProductLevel.Add(productLevel);
-            }
-            else // om ProductLevel inte är null så kommer nedan kod generera en update istället när vi kör SaveChanges()
-            {
-                productLevel.Name = updateProductDto.Name;
-                productLevel.Description = updateProductDto.Description;
-                productLevel.ImageUrl = updateProductDto.ImageUrl;
-                productLevel.ArticleNumber = updateProductDto.ArticleNumber;
-                productLevel.Price = updateProductDto.Price;
-            }
             Context.SaveChanges();
 
-            return NoContent();
+            if (product == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+            return Created("", productDto);
+            }
         }
 
         [HttpGet] //Hämtar artikelnummer och antal i lager
-        public IEnumerable<ProductLevelDto> GetAll()
+        public ActionResult<IEnumerable<Product>>Get()
         {
-            var productLevelDto = Context.ProductLevel.Select(x => new ProductLevelDto
-            {
-                Name = x.Name,
-                Description = x.Description,
-                ImageUrl = x.ImageUrl,
-                Price = x.Price,
-                ArticleNumber = x.ArticleNumber,
-            });
-            return productLevelDto;
+            var products = Context.Product.ToList();
+            return products;
         }
     }
-
-    public class ProductLevelDto
-    {
-        public string Name{ get; set; }
-        public string Description{ get; set; }
-        public string ImageUrl{ get; set; }
-        public decimal Price{ get; set; }
-        public string ArticleNumber{ get; set; }
-        
-    }
 }
-/*int Id { get; set; }
-        string Name { get; set; }  
-        string Description { get; set; }
-        string ImageUrl { get; set; }
-        int Price { get; set; }
-        string ArticleNumber { get; set; }
-        string UrlSlug { get; set; }*/
